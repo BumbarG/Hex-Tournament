@@ -4,6 +4,7 @@ from agents.random_agent import RandomAgent
 from system.enums import Player
 from system.state import State
 
+
 def play(game, players, debug=False):
     player = 0
     while game.get_winner() == Player.NONE:
