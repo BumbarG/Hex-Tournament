@@ -31,19 +31,6 @@ class State:
             self.__add_to_set(self.black_fields, 1, Player.BLACK, cell)
             self.player = Player.WHITE
 
-    def undo_move(self, cell):
-        if self.board[cell] == Player.NONE.value:
-            raise ValueError('This cell is already empty.')
-        if self.board[cell] == self.player.value:
-            raise ValueError('This move currently can not be undone.')
-        self.board[cell] = Player.NONE.value
-        if self.player == Player.WHITE:
-            self._remove_from_set(self.black_fields, cell)
-            self.player = Player.BLACK
-        else:
-            self._remove_from_set(self.white_fields, cell)
-            self.player = Player.WHITE
-
     def get_winner(self):
         if self.white_fields.are_connected(Border.ONE.value, Border.TWO.value):
             return Player.WHITE
@@ -60,9 +47,6 @@ class State:
         for n in self.__get_neighbours(cell):
             if self.board[n] == player.value:
                 fields.union(cell, n)
-
-    def _remove_from_set(self, fields, cell):
-        raise NotImplementedError()
 
     def __get_neighbours(self, cell):
         return [(cell[0] + n[0], cell[1] + n[1]) for n in ((-1, 0), (-1, 1), (0, -1), (0, 1), (1, 0), (1, -1))
