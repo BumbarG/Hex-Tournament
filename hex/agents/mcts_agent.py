@@ -44,7 +44,8 @@ class MCTS:
 
     def get_best_move(self):
         max_value = max([n.get_value() for _, n in self.root.children.items()])
-        node = choice([n for _, n in self.root.children.items() if n.get_value() == max_value])
+        node = choice([n for _, n in self.root.children.items()
+                       if n.get_value() == max_value])
         return node.move
 
     def make_move(self, move):
@@ -64,17 +65,19 @@ class MCTS:
 
         while len(node.children) > 0 and node.N > 0:
             max_value = max([n.get_value() for _, n in node.children.items()])
-            node = choice([n for _, n in node.children.items() if n.get_value() == max_value])
+            node = choice([n for _, n in node.children.items()
+                           if n.get_value() == max_value])
             state.make_move(node.move)
 
         return state, node
 
     def __expand_and_select(self, state, urgent_node):
         if state.get_winner() != Player.NONE:
-            return urgent_node # this is terminal node
+            return urgent_node  # this is terminal node
 
         for move in state.get_moves():
-            urgent_node.children[move] = Node(self.explore_factor, urgent_node, move)
+            urgent_node.children[move] = Node(
+                self.explore_factor, urgent_node, move)
 
         move, selected_node = choice(list(urgent_node.children.items()))
         state.make_move(selected_node.move)
@@ -89,7 +92,8 @@ class MCTS:
         return state.get_winner()
 
     def __backup(self, node, current_player, winner):
-        profit = not (current_player == winner) #profit is for previos player, not current
+        # profit is for previos player, not current
+        profit = not (current_player == winner)
         while node is not None:
             node.N += 1
             node.Q += int(profit)
@@ -98,7 +102,7 @@ class MCTS:
 
 
 class MCTSAgent(BaseAgent):
-    def __init__(self, game, search_seconds, explore_factor = 0.5):
+    def __init__(self, game, search_seconds, explore_factor=0.5):
         self.mcts = MCTS(game, search_seconds, explore_factor)
 
     def get_move(self):

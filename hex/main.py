@@ -8,10 +8,12 @@ from system.state import State
 def play(game, players, debug=False):
     player = 0
     while game.get_winner() == Player.NONE:
-        if debug: print(game)
+        if debug:
+            print(game)
 
         move = players[player].get_move()
-        if debug: print("Selected move: {}".format(move))
+        if debug:
+            print("Selected move: {}".format(move))
         game.make_move(move)
 
         for p in players:
@@ -20,6 +22,7 @@ def play(game, players, debug=False):
         player = (player + 1) % 2
 
     print("Winner is player {}".format(game.get_winner()))
+
 
 if __name__ == '__main__':
     game = State(8)

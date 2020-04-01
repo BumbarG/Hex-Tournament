@@ -21,7 +21,7 @@ class DisjoinSet:
         broot = self.find(b)
 
         if aroot == broot:
-            return # already connected
+            return  # already connected
 
         if self.ranks[aroot] < self.ranks[broot]:
             aroot, broot = broot, aroot

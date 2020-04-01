@@ -31,6 +31,19 @@ class State:
             self.__add_to_set(self.black_fields, 1, Player.BLACK, cell)
             self.player = Player.WHITE
 
+    def undo_move(self, cell):
+        if self.board[cell] == Player.NONE.value:
+            raise ValueError('This cell is already empty.')
+        if self.board[cell] == self.player.value:
+            raise ValueError('This move currently can not be undone.')
+        self.board[cell] = Player.NONE.value
+        if self.player == Player.WHITE:
+            self._remove_from_set(self.black_fields, cell)
+            self.player = Player.BLACK
+        else:
+            self._remove_from_set(self.white_fields, cell)
+            self.player = Player.WHITE
+
     def get_winner(self):
         if self.white_fields.are_connected(Border.ONE.value, Border.TWO.value):
             return Player.WHITE
@@ -48,12 +61,22 @@ class State:
             if self.board[n] == player.value:
                 fields.union(cell, n)
 
+    def _remove_from_set(self, fields, cell):
+        raise NotImplementedError()
+
     def __get_neighbours(self, cell):
         return [(cell[0] + n[0], cell[1] + n[1]) for n in ((-1, 0), (-1, 1), (0, -1), (0, 1), (1, 0), (1, -1))
                 if (0 <= cell[0] + n[0] < self.size and 0 <= cell[1] + n[1] < self.size)]
 
-    def __str__ (self):
+    def __hash__(self):
+        return hash((str(self.board), self.player.value))
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
+
+    def __str__(self):
         cell_size = len(str(self.size))
+
         def represent(value):
             return str(value) + ' '*(cell_size - len(str(value)))
 
@@ -63,7 +86,8 @@ class State:
         offset = 1
         new_line = '\n'
 
-        board_str = new_line + "Current player: {}".format(self.player) + new_line
+        board_str = new_line + \
+            "Current player: {}".format(self.player) + new_line
         board_str += ' ' + ' ' * cell_size
 
         for i in range(self.size):
@@ -71,7 +95,7 @@ class State:
         board_str += new_line
 
         for y in range(self.size):
-            board_str += ' '* offset * y + represent(y) + ' '*(offset*2)
+            board_str += ' ' * offset * y + represent(y) + ' '*(offset*2)
             for x in range(self.size):
                 if self.board[x, y] == Player.WHITE.value:
                     board_str += white
@@ -82,5 +106,6 @@ class State:
                 board_str += ' ' * offset * 2
             board_str += white + new_line
 
-        board_str += ' ' * (cell_size+offset) + ' ' * (offset * self.size + 1) + (black + ' ' * offset * 2) * self.size
+        board_str += ' ' * (cell_size+offset) + ' ' * (offset *
+                                                       self.size + 1) + (black + ' ' * offset * 2) * self.size
         return board_str
