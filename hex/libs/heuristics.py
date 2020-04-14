@@ -1,7 +1,8 @@
-from system.state import State
-from system.enums import Player
-from graph import find_shortest_path_Dijkstra
 import numpy as np
+
+from graph import find_shortest_path_Dijkstra
+from system.enums import Player
+from system.state import State
 
 
 def shortest_connecting_path_length(game: State):

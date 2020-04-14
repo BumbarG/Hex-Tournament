@@ -1,9 +1,9 @@
 from copy import deepcopy
-from math import sqrt, log
+from math import log, sqrt
 from random import choice, shuffle
 from time import time
 
-from hex.agents.base_agent import BaseAgent
+from agents.base_agent import BaseAgent
 from system.enums import Player
 
 

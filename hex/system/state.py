@@ -1,7 +1,7 @@
 import numpy as np
 
-from hex.libs.disjoint_set import DisjoinSet
-from system.enums import Player, Border
+from libs.disjoint_set import DisjoinSet
+from system.enums import Border, Player
 
 
 class State:

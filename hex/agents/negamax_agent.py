@@ -1,7 +1,9 @@
-from hex.agents.base_agent import BaseAgent
 from collections import defaultdict
-import numpy as np
 from copy import deepcopy
+
+import numpy as np
+
+from agents.base_agent import BaseAgent
 
 
 class NegamaxAgent(BaseAgent):

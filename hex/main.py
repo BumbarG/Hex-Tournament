@@ -1,6 +1,6 @@
 from agents.mcts_agent import MCTSAgent
-from agents.user_agent import UserAgent
 from agents.random_agent import RandomAgent
+from agents.user_agent import UserAgent
 from system.enums import Player
 from system.state import State
 
