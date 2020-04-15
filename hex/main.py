@@ -1,8 +1,10 @@
 from agents.mcts_agent import MCTSAgent
 from agents.random_agent import RandomAgent
+from agents.negamax_agent import NegamaxAgent
 from agents.user_agent import UserAgent
 from system.enums import Player
 from system.state import State
+from libs.heuristics import shortest_connecting_path_length
 
 
 def play(game, players, debug=False):
@@ -27,7 +29,8 @@ def play(game, players, debug=False):
 if __name__ == '__main__':
     game = State(8)
 
-    agent1 = MCTSAgent(game, 30)
+    # agent1 = MCTSAgent(game, 30)
+    agent1 = NegamaxAgent(game, 2, shortest_connecting_path_length)
     #agent1 = RandomAgent(game)
     agent2 = UserAgent(game)
 

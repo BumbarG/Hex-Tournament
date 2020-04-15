@@ -11,7 +11,7 @@ class NegamaxAgent(BaseAgent):
         self.game = game
         self.depth = depth
         self.heuristic = heuristic
-        self.transposition_table = defaultdict(lambda x: None)
+        self.transposition_table = defaultdict(lambda: None)
 
     def get_move(self):
         # alpha-beta tba.
@@ -23,7 +23,7 @@ class NegamaxAgent(BaseAgent):
     def best_evaluated_move(self, game, depth, alpha, beta):
         best_move = None
         max_heuristic = -np.inf
-        for move in self.game.get_moves():
+        for move in game.get_moves():
             current_game = deepcopy(game)
             current_game.make_move(move)
             current_heuristic = self.transposition_table[

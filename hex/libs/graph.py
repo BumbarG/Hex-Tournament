@@ -16,12 +16,12 @@ def find_shortest_path_Dijkstra(player, game: State):
     end ... the target cell.
     if the function returns np.inf, then no path was found and a player should have already been declared the winnder.
     '''
-    Q = heapdict()
+    Q = heapdict.heapdict()
     # prev = defaultdict(None) # we dont need the path
-    dist = defaultdict(lambda x: np.inf)
+    dist = defaultdict(lambda: np.inf)
     for i in range(game.size):
         for j in range(game.size):
-            Q[(i, j)] == np.inf
+            Q[(i, j)] = np.inf
     if player == Player.WHITE:
         Q[(-1, None)] = 0
         dist[(-1, None)] = 0
@@ -46,6 +46,10 @@ def find_shortest_path_Dijkstra(player, game: State):
 
 
 def length(a, b, board):
+    # have to handle imaginary fields.
+    # None should not occur otherwise. It should only occur for the border fields.
+    if a[0] is None or a[1] is None:
+        return 0
     if board[a[0], a[1]] == board[b[0], b[1]]:
         return 0
     if (board[a[0], a[1]] == Player.NONE.value) or (board[b[0], b[1]] == Player.NONE.value):
