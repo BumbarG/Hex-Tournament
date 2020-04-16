@@ -27,7 +27,7 @@ def play(game, players, debug=False):
 
 
 if __name__ == '__main__':
-    game = State(8)
+    game = State(4)
 
     # agent1 = MCTSAgent(game, 30)
     agent1 = NegamaxAgent(game, 2, shortest_connecting_path_length)

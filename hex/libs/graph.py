@@ -15,6 +15,7 @@ def find_shortest_path_Dijkstra(player, game: State):
     if the function returns np.inf, then no path was found and a player should have already been declared the winnder.
     '''
     Q = heapdict.heapdict()
+    # calculations for prayer are exactly the opposite as they should be.
     # prev = defaultdict(None)  # we dont need the path
     dist = defaultdict(lambda: np.inf)
     for i in range(game.size):

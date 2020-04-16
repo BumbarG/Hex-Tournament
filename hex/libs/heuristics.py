@@ -11,12 +11,13 @@ def shortest_connecting_path_length(game: State):
     of the opponents shortest connecting path.
     Goes over all cells of the active player and calculates the minimum distanceb between them and all the target tiles.
     '''
-    if game.get_winner() != Player.NONE:  # I don't think we can get opposing player as the winner here. Might need to change.
-        return np.inf
+    # I don't think we can get opposing player as the winner here. Might need to change.
+    if game.get_winner() != Player.NONE:
+        return -10000000
     if game.player == Player.WHITE:
         # the below could perhaps be a weighted sum.
-        return -find_shortest_path_Dijkstra(Player.WHITE, game)+find_shortest_path_Dijkstra(Player.BLACK, game)
+        return -find_shortest_path_Dijkstra(Player.BLACK, game)+find_shortest_path_Dijkstra(Player.WHITE, game)
     if game.player == Player.BLACK:
         # the below could perhaps be a weighted sum.
-        return -find_shortest_path_Dijkstra(Player.BLACK, game)+find_shortest_path_Dijkstra(Player.WHITE, game)
+        return -find_shortest_path_Dijkstra(Player.WHITE, game)+find_shortest_path_Dijkstra(Player.BLACK, game)
     raise Exception('Function should not reach this.')

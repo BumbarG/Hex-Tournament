@@ -21,6 +21,7 @@ class NegamaxAgent(BaseAgent):
         pass
 
     def best_evaluated_move(self, game, depth, alpha, beta):
+        # need to handle wins at different depths.
         best_move = None
         max_heuristic = -np.inf
         for move in game.get_moves():
@@ -37,6 +38,7 @@ class NegamaxAgent(BaseAgent):
                             current_game, depth-1, -beta, -alpha)[1]
                 self.transposition_table[(
                     current_game, depth)] = current_heuristic
+
             if current_heuristic > max_heuristic:
                 best_move = move
                 max_heuristic = current_heuristic
