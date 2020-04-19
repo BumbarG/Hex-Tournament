@@ -16,8 +16,9 @@ def shortest_connecting_path_length(game: State):
         return -10000000
     if game.player == Player.WHITE:
         # the below could perhaps be a weighted sum.
-        return -find_shortest_path_Dijkstra(Player.BLACK, game)+find_shortest_path_Dijkstra(Player.WHITE, game)
+        return -find_shortest_path_Dijkstra(Player.WHITE, game)+find_shortest_path_Dijkstra(Player.BLACK, game)
     if game.player == Player.BLACK:
         # the below could perhaps be a weighted sum.
-        return -find_shortest_path_Dijkstra(Player.WHITE, game)+find_shortest_path_Dijkstra(Player.BLACK, game)
+        return -find_shortest_path_Dijkstra(Player.BLACK, game)+find_shortest_path_Dijkstra(Player.WHITE, game)
+
     raise Exception('Function should not reach this.')

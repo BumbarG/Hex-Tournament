@@ -4,46 +4,43 @@ from copy import deepcopy
 import numpy as np
 
 from agents.base_agent import BaseAgent
-
+from system.enums import Player
 
 class NegamaxAgent(BaseAgent):
     def __init__(self, game, depth, heuristic):
         self.game = game
         self.depth = depth
         self.heuristic = heuristic
-        self.transposition_table = defaultdict(lambda: None)
 
     def get_move(self):
         # alpha-beta tba.
-        return self.best_evaluated_move(self.game, self.depth, -np.inf, np.inf)[0]
+        move, score = self.best_evaluated_move(self.game, self.depth, -np.inf, np.inf)
+        return move
 
     def register_move(self, move):
         pass
 
     def best_evaluated_move(self, game, depth, alpha, beta):
-        # need to handle wins at different depths.
+        if depth == 0 or game.get_winner() != Player.NONE:
+            #print(game)
+            score = self.heuristic(game)
+            #print(score)
+            return None, score
+
         best_move = None
         max_heuristic = -np.inf
         for move in game.get_moves():
             current_game = deepcopy(game)
             current_game.make_move(move)
-            current_heuristic = self.transposition_table[
-                (current_game, depth)]  # should work as both components of tuple are immutable
-            if current_heuristic is None:
-                if depth == 0:
-                    current_heuristic = self.heuristic(current_game)
-                else:
-                    current_heuristic = - \
-                        self.best_evaluated_move(
-                            current_game, depth-1, -beta, -alpha)[1]
-                self.transposition_table[(
-                    current_game, depth)] = current_heuristic
 
+            current_heuristic = - self.best_evaluated_move(current_game, depth-1, -beta, -alpha)[1]
             if current_heuristic > max_heuristic:
                 best_move = move
                 max_heuristic = current_heuristic
-            alpha = max(alpha, max_heuristic)
-            if alpha >= beta:
-                break
+
+                # only if current_heuristic is greater than max_heuristic, the alpha may change
+                alpha = max(alpha, max_heuristic)
+                if alpha >= beta:
+                    break
 
         return (best_move, max_heuristic)
