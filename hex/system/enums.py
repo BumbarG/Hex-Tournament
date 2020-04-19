@@ -10,3 +10,9 @@ class Player(Enum):
 class Border(Enum):
     ONE = 0
     TWO = 1
+
+
+""" class TTFlag(Enum):
+    EXACT = 0
+    LOWERBOUND = 1
+    UPPERBOUND = 2 """
