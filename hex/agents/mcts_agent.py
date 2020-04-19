@@ -104,10 +104,23 @@ class MCTS:
 class MCTSAgent(BaseAgent):
     def __init__(self, game, search_seconds, explore_factor=0.5):
         self.mcts = MCTS(game, search_seconds, explore_factor)
+        self.game = game
 
     def get_move(self):
+        winning_move = self.get_winning_move()
+        if winning_move is not None:
+            return winning_move
+        
         self.mcts.search()
         return self.mcts.get_best_move()
 
     def register_move(self, move):
         self.mcts.make_move(move)
+    
+    def get_winning_move(self):
+        for move in self.game.get_moves():
+            current_game = deepcopy(self.game)
+            current_game.make_move(move)
+            if current_game.get_winner() != Player.NONE:
+                return move
+        return None

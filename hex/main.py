@@ -1,13 +1,17 @@
+import random
+from time import time
+
 from agents.mcts_agent import MCTSAgent
-from agents.random_agent import RandomAgent
 from agents.negamax_agent import NegamaxAgent
+from agents.random_agent import RandomAgent
 from agents.user_agent import UserAgent
+from libs.heuristics import shortest_connecting_path_length
 from system.enums import Player
 from system.state import State
-from libs.heuristics import shortest_connecting_path_length
 
 
 def play(game, players, debug=False):
+    t_start = time()
     player = 0
     while game.get_winner() == Player.NONE:
         if debug:
@@ -23,15 +27,34 @@ def play(game, players, debug=False):
 
         player = (player + 1) % 2
 
-    print("Winner is player {}".format(game.get_winner()))
+    t_stop = time()
+    if debug:
+        print("Winner is player {}".format(game.get_winner()))
+        print(game)
+
+    return game.get_winner(), t_stop - t_start
 
 
 if __name__ == '__main__':
-    game = State(4)
+    random.seed(0)
+    N = 30
+    for i in range(N):
+        game = State(8)
+        
+        agents = [
+            MCTSAgent(game, 10),
+            NegamaxAgent(game, 2, shortest_connecting_path_length),
+            #RandomAgent(game, random),
+            #UserAgent(game)
+        ]
 
-    # agent1 = MCTSAgent(game, 30)
-    agent1 = NegamaxAgent(game, 2, shortest_connecting_path_length)
-    #agent1 = RandomAgent(game)
-    agent2 = UserAgent(game)
+        white_wins = 0
+        winner, elapsed_time = play(game, agents, debug=True)
 
-    play(game, [agent1, agent2], debug=True)
+        if winner == Player.WHITE:
+            white_wins += 1
+        
+        print('{}: {} (time: {})'.format(i, winner, elapsed_time))
+    
+    percentages_of_white_wins = round(white_wins/N*100,2)
+    print('White player wins in {}% games'.format(percentages_of_white_wins))

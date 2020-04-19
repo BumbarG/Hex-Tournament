@@ -90,3 +90,14 @@ def get_neighbours(cell, size):
     else:
         return [(cell[0] + n[0], cell[1] + n[1]) for n in ((-1, 0), (-1, 1), (0, -1), (0, 1), (1, 0), (1, -1))
                 if (0 <= cell[0] + n[0] < size and 0 <= cell[1] + n[1] < size)]
+
+
+
+if __name__ == '__main__':
+    g = State(4)
+    g.make_move((0,0))
+    g.make_move((0,1))
+
+    print(g)
+    print(find_shortest_path_Dijkstra(Player.BLACK, g))
+    print(find_shortest_path_Dijkstra(Player.WHITE, g))
