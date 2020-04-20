@@ -108,8 +108,8 @@ if __name__ == '__main__':
             avg_number_of_moves_per_game = (all_moves[0] + all_moves[1])/ total_games
 
             print('White wins in {}% games (avg number of moves per game: {}, avg time for one move: [{}, {}]'.format(
-                avg_number_of_moves_per_game,
                 percentages_of_white_wins,
+                avg_number_of_moves_per_game,
                 avg_time_per_move1,
                 avg_time_per_move2
                 ))
